@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aya Mahmoud Platform</title>
+  <style>
+    :root{--primary:#083e8a;--secondary:#2563eb;--bg:#f6f8fb}
+    body{font-family: Tahoma, Arial, sans-serif; margin:0; background:var(--bg); direction: rtl;}
+    nav { background: var(--primary); padding: 10px; display: flex; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 1000; flex-wrap: wrap;}
+    nav a { color: white; text-decoration: none; font-weight: bold; cursor: pointer; padding: 8px 12px; border-radius: 5px; font-size: 14px;}
+    nav a:hover, nav a.active { background: rgba(255,255,255,0.2); }
+    header{background: linear-gradient(90deg, #083e8a, #2563eb); color:white; padding: 30px; text-align: center;}
+    .container{max-width:1100px; margin:20px auto; padding: 0 15px;}
+    .card{background:white; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding:20px; margin-bottom:20px;}
+    .hidden{display:none !important}
+    .btn{background:var(--secondary); color:white; padding:10px 20px; border-radius:8px; border:none; cursor:pointer; font-weight:bold;}
+    .lessons-grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px;}
+    .chat-box { height: 300px; border: 1px solid #ddd; overflow-y: auto; padding: 15px; background: #fff; display: flex; flex-direction: column; gap: 10px; border-radius: 8px; }
+    .msg { padding: 10px; border-radius: 10px; max-width: 80%; }
+    .bot { background: #eef2ff; align-self: flex-start; color: #083e8a; }
+    .user { background: var(--secondary); color: white; align-self: flex-end; }
+    .quiz-item { border-bottom: 1px dashed #ccc; padding: 15px 0; }
+  </style>
+</head>
+<body>
+
+<nav id="mainNav" class="hidden">
+  <a onclick="showPage('home')" id="l-home">الرئيسية</a>
+  <a onclick="showPage('lessons')" id="l-lessons">المحتوى التعليمي</a>
+  <a onclick="showPage('activities')" id="l-activities">الأنشطة والأسئلة</a>
+  <a onclick="showPage('ai')" id="l-ai">المساعد الذكي</a>
+  <a onclick="showPage('contact')" id="l-contact">تواصل معنا</a>
+</nav>
+
+<header>
+  <h1>Aya Mahmoud Platform</h1>
+</header>
+
+<div class="container">
+  
+  <div id="loginPage" class="card" style="max-width:400px; margin: auto; text-align: center;">
+    <h3>تسجيل الدخول</h3>
+    <input id="userInp" placeholder="اسم المستخدم" style="width:90%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:5px;"/>
+    <input id="passInp" type="password" placeholder="كلمة المرور" style="width:90%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:5px;"/>
+    <button class="btn" onclick="login()" style="width:95%">دخول</button>
+  </div>
+
+  <div id="homePage" class="page hidden">
+    <div class="card" style="text-align: center;">
+      <h2 style="color: var(--primary);">مرحبا بالتلميذ فى بيئة التعلم الإلكترونى</h2>
+      <div style="background: #fff; padding: 25px; border-radius: 15px; border: 2px solid #eef2ff; margin-top: 20px;">
+        <p style="font-size: 1.2rem; color: #444; line-height: 1.8;">
+          تهدف بيئة التعلم الإلكترونى الى تنمية العمق المعرفى و الشغف الأكاديمى لدى تلاميذ المرحلة الإبتدائية.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="lessonsPage" class="page hidden">
+    <div class="lessons-grid" id="gridArea"></div>
+  </div>
+
+  <div id="activitiesPage" class="page hidden">
+    <div class="card">
+      <h2 style="color: var(--primary);">أنشطة الدروس</h2>
+      <p>أجب على الأسئلة التالية لاختبار فهمك للدروس:</p>
+      
+      <div class="quiz-item">
+        <strong>1. ما هي الخطوة الأولى عند إجراء بحث رقمي؟</strong><br>
+        <button class="btn" style="margin-top:5px; font-size:12px;" onclick="checkAns(this, true)">اختيار الموضوع</button>
+        <button class="btn" style="margin-top:5px; font-size:12px; background:#888;" onclick="checkAns(this, false)">كتابة النتائج فوراً</button>
+      </div>
+
+      <div class="quiz-item">
+        <strong>2. أي مما يلي يعد اتصالاً متزامناً؟</strong><br>
+        <button class="btn" style="margin-top:5px; font-size:12px;" onclick="checkAns(this, true)">محادثة فيديو مباشرة</button>
+        <button class="btn" style="margin-top:5px; font-size:12px; background:#888;" onclick="checkAns(this, false)">رسالة بريد إلكتروني</button>
+      </div>
+
+      <div class="quiz-item">
+        <strong>3. البصمة الرقمية هي سجل لكل ما تفعله عبر الإنترنت.</strong><br>
+        <button class="btn" style="margin-top:5px; font-size:12px;" onclick="checkAns(this, true)">صح</button>
+        <button class="btn" style="margin-top:5px; font-size:12px; background:#888;" onclick="checkAns(this, false)">خطأ</button>
+      </div>
+
+      <div class="quiz-item">
+        <strong>4. تستخدم منصة فلابي (Vlaby) لـ:</strong><br>
+        <button class="btn" style="margin-top:5px; font-size:12px;" onclick="checkAns(this, true)">إجراء تجارب علمية افتراضية</button>
+        <button class="btn" style="margin-top:5px; font-size:12px; background:#888;" onclick="checkAns(this, false)">مشاهدة أفلام كرتون</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="aiPage" class="page hidden">
+    <div class="card">
+      <h3>المساعد الذكي المطور</h3>
+      <div id="chatMessages" class="chat-box"></div>
+      <div style="margin-top: 10px; display: flex; gap: 5px;">
+        <input id="aiInput" style="flex:1; padding:10px; border-radius:5px; border:1px solid #ddd;" placeholder="اسألني عن دروسك..." />
+        <button class="btn" onclick="askBot()">إرسال</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="contactPage" class="page hidden">
+    <div class="card" style="text-align: center;">
+      <h3 style="color: var(--primary);">تواصل مع الباحثة</h3>
+      <div style="font-size: 1.1rem; line-height: 2;">
+        <p><strong>الاسم:</strong> أ : ايه</p>
+        <p><strong>الهاتف:</strong> 01124669079</p>
+        <p><strong>الدرجة العلمية:</strong> باحثة ماجستير تكنولوجيا التعليم</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const lessons = [
+    { t: "التطبيقات التكنولوجية في حياتنا", pdf: "التطبيقات التكنولوجية في حياتنا1.pdf", yt: "u25K3glO8Tk" },
+    { t: "المواطنة الرقمية", pdf: "المواطنة الرقمية الحقوق والمسؤوليات2.pdf", yt: "XEPNItHB6xI" },
+    { t: "طرق التواصل عبر الإنترنت", pdf: "طرق التواصل عبر الإنترنت3.pdf", yt: "06oE8KlCVD4" },
+    { t: "أدوات التواصل الرقمي", pdf: "أدوات التواصل الرقمي4.pdf", yt: "a1FE0i_pjug" },
+    { t: "أدواتي في التعلم عبر الإنترنت", pdf: "أدواتي في التعلم عبر الإنترنت5.pdf", yt: "c0aJJAMHuJo" },
+    { t: "مهارات البحث الرقمي", pdf: "مهارات البحث الرقمي6.pdf", yt: "AL4APMF_Hlo" }
+  ];
+
+  function login() {
+    const u = document.getElementById('userInp').value;
+    const p = document.getElementById('passInp').value;
+    if((u==='student' && p==='student123') || (u==='teacher' && p==='teacher123')) {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('mainNav').classList.remove('hidden');
+      showPage('home');
+    } else { alert("خطأ! استخدم student123 أو teacher123"); }
+  }
+
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    document.getElementById(id + 'Page').classList.remove('hidden');
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('l-' + id).classList.add('active');
+    if(id === 'lessons') renderLessons();
+  }
+
+  function renderLessons() {
+    const area = document.getElementById('gridArea');
+    area.innerHTML = lessons.map(l => `
+      <div class="card">
+        <h4 style="color:var(--primary)">${l.t}</h4>
+        <iframe src="https://www.youtube.com/embed/${l.yt}" width="100%" height="180" frameborder="0" allowfullscreen></iframe>
+        <br><br>
+        <a href="${l.pdf}" target="_blank" class="btn" style="text-decoration:none; font-size:12px; display:block; text-align:center;">📄 تحميل ملخص PDF</a>
+      </div>
+    `).join('');
+  }
+
+  function checkAns(btn, isCorrect) {
+    if(isCorrect) {
+      btn.style.background = "#10b981";
+      alert("إجابة صحيحة! أحسنت.");
+    } else {
+      btn.style.background = "#ef4444";
+      alert("إجابة خاطئة، حاول مرة أخرى.");
+    }
+  }
+
+  function askBot() {
+    const inp = document.getElementById('aiInput');
+    const box = document.getElementById('chatMessages');
+    if(!inp.value) return;
+    box.innerHTML += `<div class="msg user">${inp.value}</div>`;
+    
+    let res = "هذا سؤال ممتاز! يمكنك أن تجد تفاصيل أكثر في المحتوى التعليمي أو ملفات الـ PDF.";
+    const txt = inp.value.toLowerCase();
+    if(txt.includes("مواطنة")) res = "المواطنة الرقمية هي استخدام التكنولوجيا بأمان ومسؤولية وأخلاق.";
+    if(txt.includes("بحث")) res = "خطوات البحث الذكي تبدأ باختيار الموضوع، ثم اختيار المصادر الموثوقة كبنك المعرفة.";
+    if(txt.includes("فلابي")) res = "منصة فلابي تتيح للتلاميذ إجراء تجارب علمية في بيئة افتراضية آمنة.";
+
+    setTimeout(() => {
+      box.innerHTML += `<div class="msg bot">${res}</div>`;
+      box.scrollTop = box.scrollHeight;
+    }, 500);
+    inp.value = "";
+  }
+</script>
+</body>
+</html>
